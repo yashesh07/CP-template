@@ -1,0 +1,66 @@
+<snippet>
+	<content><![CDATA[
+class UnionFind {
+   private:
+      vector<long long> p, rank, setSize, maxSet, minSet;
+      long long numSets;
+
+   public:
+      UnionFind(long long N){
+         p.assign(N, 0);
+         maxSet.assign(N, 0);
+         minSet.assign(N, 0);
+         for(long long i = 0; i < N; i++){
+            p[i] = i;
+            maxSet[i] = i;
+            minSet[i] = i;
+         }
+         rank.assign(N, 0);
+         setSize.assign(N, 1);
+         numSets = N;
+      }
+
+      long long findSet(long long i){
+         if(p[i] == i)   return i;
+         else    return p[i] = findSet(p[i]);
+      }
+
+      bool isSameSet(long long i, long long j){
+         return findSet(i) == findSet(j); 
+      }
+
+      long long sizeOfSet(long long i){
+         return setSize[findSet(i)];
+      }
+
+      long long numDisjointSets(){
+         return numSets; 
+      }
+
+      long long getMaxSet(long long i){
+         return maxSet[findSet(i)];
+      }
+
+      long long getMinSet(long long i){
+         return minSet[findSet(i)];
+      }
+
+      void unionSet(long long i, long long j){
+         if(isSameSet(i,j)) return; 
+         long long x = findSet(i);
+         long long y = findSet(j);
+         if(rank[x] > rank[y])   swap(x,y);
+         p[x] = y; 
+         if (rank[x] == rank[y]) rank[y]++;
+         setSize[y] += setSize[x];
+         maxSet[y] = max(maxSet[x], maxSet[y]);
+         minSet[y] = min(minSet[x], minSet[y]);
+         numSets--;
+      }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dsu</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

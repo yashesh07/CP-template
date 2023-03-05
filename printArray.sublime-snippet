@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+for(ll i = 0; i<${1:n}; i++){
+    cout << ${2:arr}[i] << " ";
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>printArray</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

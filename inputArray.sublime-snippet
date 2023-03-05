@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[
+vector<ll> arr(${1:n});
+for(ll i = 0; i<${2:n}; i++){
+    cin >> arr[i];
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>inputArray</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>
