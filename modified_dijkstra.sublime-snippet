@@ -1,0 +1,26 @@
+<snippet>
+    <content><![CDATA[
+void modified_dijkstra(ll source, ll n, vector<ll>& dist, vector<ll>& predecessor, vector<vector<pair<ll, ll>>>& adj){
+   dist.assign(n, linf);
+   predecessor.assign(n, -1);
+   dist[source] = 0;
+   priority_queue<pair<ll, ll>, vector<pair<ll, ll>>, greater<pair<ll, ll>>> pq;
+   pq.push({0, source});
+   while(!pq.empty()){
+      pair<ll, ll> vertex = pq.top();
+      pq.pop();
+      if(vertex.first>dist[vertex.second])   continue;
+      for(auto &v : adj[vertex.second]){
+         if(vertex.first+v.second>=dist[v.first])   continue;
+         dist[v.first] = vertex.first+v.second;
+         predecessor[v.first] = vertex.second;
+         pq.push({dist[v.first], v.first});
+      }
+   }
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>modified_dijkstra</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>

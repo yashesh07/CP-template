@@ -1,0 +1,26 @@
+<snippet>
+    <content><![CDATA[
+void dijkstra(ll source, ll n, vector<ll>& dist, vector<ll>& predecessor, vector<vector<pair<ll, ll>>>& adj){
+   dist.assign(n, linf);
+   predecessor.assign(n, -1);
+   dist[source] = 0;
+   set<pair<ll, ll>> pq;
+   pq.insert({0, source});
+   while(!pq.empty()){
+      pair<ll, ll> vertex = *pq.begin();
+      pq.erase(pq.begin());
+      for(auto &v : adj[vertex.second]){
+         if(vertex.first+v.second>=dist[v.first])   continue;
+         if(pq.find({dist[v.first], v.first})!=pq.end())  pq.erase({dist[v.first], v.first});
+         dist[v.first] = vertex.first+v.second;
+         predecessor[v.first] = vertex.second;
+         pq.insert({dist[v.first], v.first});
+      }
+   }
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>dijkstra</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>
