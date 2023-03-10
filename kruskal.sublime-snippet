@@ -1,0 +1,62 @@
+<snippet>
+    <content><![CDATA[
+class UnionFind {
+   private:
+      vector<long long> p, rank;
+
+   public:
+      UnionFind(long long N){
+         p.assign(N, 0);
+         for(long long i = 0; i < N; i++){
+            p[i] = i;
+         }
+         rank.assign(N, 0);
+      }
+
+      long long findSet(long long i){
+         if(p[i] == i)   return i;
+         else    return p[i] = findSet(p[i]);
+      }
+
+      bool isSameSet(long long i, long long j){
+         return findSet(i) == findSet(j); 
+      }
+
+      void unionSet(long long i, long long j){
+         if(isSameSet(i,j)) return; 
+         long long x = findSet(i);
+         long long y = findSet(j);
+         if(rank[x] > rank[y])   swap(x,y);
+         p[x] = y; 
+         if (rank[x] == rank[y]) rank[y]++;
+      }
+};
+
+ll kruskal(ll n, vector<ll>& predecessor, vector<vector<pair<ll, ll>>>& adj){
+   UnionFind uf(n);
+   ll mst_cost = 0, num_taken = 0;
+   predecessor.assign(n, -1);
+   vector<pair<ll, pair<ll, ll>>> edges;
+   for(ll i = 0; i<n; i++){
+      for(auto &v : adj[i]){
+         edges.pushb({v.second, {i, v.first}});
+      }
+   }
+   sort(all(edges));
+   for(auto &edge : edges){
+      ll w = edge.first, u = edge.second.first, v = edge.second.second;
+      if(uf.isSameSet(u, v))  continue;
+      mst_cost += w;
+      uf.unionSet(u, v);
+      num_taken++;
+      predecessor[v] = u;
+      if(num_taken==n-1)   break;
+   }
+   return mst_cost;
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>kruskal</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,31 @@
+<snippet>
+    <content><![CDATA[
+ll prims(ll n, vector<ll>& predecessor, vector<vector<pair<ll, ll>>>& adj){
+   vector<bool> vis(n, false);
+   predecessor.assign(n, -1);
+   priority_queue<pair<ll, pair<ll, ll>>, vector<pair<ll, pair<ll, ll>>>, greater<pair<ll, pair<ll, ll>>>> pq;
+   vis[0] = true;
+   for(auto &v : adj[0]){
+      pq.push({v.second, {0, v.first}});
+   }
+   ll mst_cost = 0;
+   for(ll i = 0; i<n-1 && !pq.empty();){
+      pair<ll, pair<ll, ll>> vertex = pq.top();
+      pq.pop();
+      if(vis[vertex.second.second])  continue;
+      vis[vertex.second.second] = true;
+      mst_cost += vertex.first;
+      predecessor[vertex.second.second] = vertex.second.first;
+      for(auto &v : adj[vertex.second.second]){
+         pq.push({v.second, {vertex.second.second, v.first}});
+      }
+      i++;
+   }
+   return mst_cost;
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>prims</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>
