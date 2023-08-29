@@ -1,0 +1,57 @@
+<snippet>
+    <content><![CDATA[
+// Find LCA 
+// Note: 0-indexed tree
+
+vector<vector<ll>> dp;
+vector<ll> depth;
+ll LOG;
+
+void dfs(vector<vector<ll>>& adj, ll parent, ll vertex){
+   for(ll v : adj[vertex]){
+      if(v==parent)  continue;
+      dp[v][0] = vertex;
+      for(ll i = 1; i<LOG; i++){
+         dp[v][i] = dp[dp[v][i-1]][i-1];
+      }
+      depth[v] = depth[vertex]+1;
+      dfs(adj, vertex, v);
+   }
+}
+
+void preprocess(vector<vector<ll>>& adj, ll n){
+   LOG = 0;
+   while((1<<LOG)<=n){
+      LOG++;
+   }
+   dp = vector<vector<ll>>(n, vector<ll>(LOG));
+   depth = vector<ll>(n);
+   depth[0] = 0;
+   dfs(adj, -1, 0);
+}
+
+ll findLCA(ll u, ll v){
+   if(depth[u]<depth[v]){
+      u = u^v;
+      v = u^v;
+      u = u^v;
+   }
+   ll k = depth[u]-depth[v];
+   for(ll j = 0; j<LOG; j++){
+      if(((1<<j)&k)!=0) u = dp[u][j];
+   }
+   if(u==v) return u;
+   for(ll j = LOG-1; j>=0; j--){
+      if(dp[u][j]!=dp[v][j]){
+         u = dp[u][j];
+         v = dp[v][j];
+      }
+   }
+   return dp[u][0];
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>lca_query</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+</snippet>
